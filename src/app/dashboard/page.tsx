@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { DashboardStats, Product } from '@/types';
 import { ProductList } from '@/components/inventory/ProductList';
+import { ProductCategoryChart } from '@/components/charts/ProductCategoryChart';
+import { StockLevelsChart } from '@/components/charts/StockLevelsChart';
+import { CategoryValueChart } from '@/components/charts/CategoryValueChart';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats>({
@@ -12,6 +15,7 @@ export default function DashboardPage() {
     pendingOrders: 0,
   });
   const [recentProducts, setRecentProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,6 +30,7 @@ export default function DashboardPage() {
         const productsData = await productsRes.json();
 
         setStats(statsData);
+        setAllProducts(productsData);
         setRecentProducts(productsData.slice(0, 5));
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -50,6 +55,23 @@ export default function DashboardPage() {
         <StatCard title="Total Revenue" value={`$${stats.totalRevenue}`} />
         <StatCard title="Pending Orders" value={stats.pendingOrders} />
       </div>
+
+      {allProducts.length > 0 && (
+        <>
+          <h2 className="text-xl font-semibold mb-4">Analytics</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white p-4 rounded-lg shadow">
+              <ProductCategoryChart products={allProducts} />
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow">
+              <StockLevelsChart products={allProducts} />
+            </div>
+            <div className="bg-white p-4 rounded-lg shadow">
+              <CategoryValueChart products={allProducts} />
+            </div>
+          </div>
+        </>
+      )}
 
       <h2 className="text-xl font-semibold mb-4">Recent Products</h2>
       {recentProducts.length > 0 ? (

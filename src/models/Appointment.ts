@@ -3,7 +3,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IAppointment extends Document {
   petName: string;
   ownerName: string;
-  ownerPhone: string;
+  ownerEmail: string;
+  ownerPhone?: string;
   service: 'Full Grooming' | 'Bath & Brush' | 'Nail Trim' | 'Hair Cut';
   date: Date;
   time: string;
@@ -25,9 +26,15 @@ const AppointmentSchema = new Schema<IAppointment>(
       required: true,
       trim: true,
     },
-    ownerPhone: {
+    ownerEmail: {
       type: String,
       required: true,
+      trim: true,
+      lowercase: true,
+    },
+    ownerPhone: {
+      type: String,
+      required: false,
     },
     service: {
       type: String,

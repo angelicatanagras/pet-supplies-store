@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Appointment from '@/models/Appointment';
+import { emailService } from '@/lib/email';
 
 export async function GET() {
   try {
@@ -20,6 +21,21 @@ export async function POST(req: Request) {
     await dbConnect();
 
     const appointment = await Appointment.create(data);
+
+    // Send email confirmation (don't fail if email fails)
+    try {
+      await emailService.sendAppointmentConfirmation({
+        customerName: appointment.ownerName,
+        email: appointment.ownerEmail,
+        petName: appointment.petName,
+        service: appointment.service,
+        date: appointment.date.toString(),
+        time: appointment.time,
+      });
+    } catch (emailError) {
+      console.error('Email notification failed:', emailError);
+      // Continue even if email fails
+    }
 
     return NextResponse.json(appointment, { status: 201 });
   } catch (error) {

@@ -24,11 +24,11 @@ export default function InventoryPage() {
   }, []);
 
   if (loading) {
-    return <div className="p-6 text-center">Loading...</div>;
+    return <div className="text-center py-8">Loading...</div>;
   }
 
   return (
-    <div className="p-6">
+    <div>
       <h1 className="text-2xl font-bold mb-6">Inventory</h1>
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <table className="min-w-full">

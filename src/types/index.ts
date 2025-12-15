@@ -37,3 +37,30 @@ export interface DashboardStats {
   totalRevenue: number;
   pendingOrders: number;
 }
+
+export interface Order {
+  _id: string;
+  customer: {
+    _id: string;
+    name: string;
+    email: string;
+    phone: string;
+  };
+  items: {
+    product: Product;
+    quantity: number;
+    price: number;
+  }[];
+  totalAmount: number;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  orderDate: string;
+  shippingAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}

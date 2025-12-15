@@ -6,7 +6,10 @@ import { signOut } from 'next-auth/react';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: '📊' },
+  { href: '/dashboard/pos', label: 'Point of Sale', icon: '💰' },
   { href: '/dashboard/products', label: 'Products', icon: '🛍️' },
+  { href: '/dashboard/orders', label: 'Orders', icon: '🧾' },
+  { href: '/dashboard/customers', label: 'Customers', icon: '👥' },
   { href: '/grooming', label: 'Grooming', icon: '✂️' },
   { href: '/inventory', label: 'Inventory', icon: '📦' },
 ];
